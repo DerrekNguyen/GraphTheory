@@ -36,7 +36,7 @@ void MinIndexedPriorityQueue<T>::remove(int ki) {
    (*pm)[ki] = -1;
    (*im)[minHeap->size() - 1] = -1;
    minHeap->pop_back();
-   
+
    sink(oldIndex);
 }
 
@@ -77,7 +77,7 @@ void MinIndexedPriorityQueue<T>::swap(int i, int j) {
 template<typename T>
 int MinIndexedPriorityQueue<T>::parent(int index) {
    int result = (index - 1) / 2;
-   if (result >= 0) 
+   if (result >= 0)
       return result;
    return -1;
 }
@@ -276,7 +276,45 @@ std::vector<int> graph::graph<T>::dijkstra(int s) {
             else q.update(p.first, t);
          }
       }
-   } 
+   }
+
+   return dist;
+}
+
+/// <summary>
+/// Bellman Ford Algorithm
+/// The edges do not have to be chosen in any specific order
+/// </summary>
+/// <param name="s"> - Id of start node </param>
+/// <returns></returns>
+template<typename T>
+std::vector<int> graph::graph<T>::bellmanFord(int s) {
+   int n = GetSize();
+
+   std::vector<int> dist(n, INT_MAX);
+
+   dist[s] = 0;
+
+   for (int i = 1; i < n; ++i) {
+      for (const auto& e : adjList) {
+         int distFrom = dist[e.first];
+         for (const auto& v : e.second) {
+            if (distFrom + v.second < dist[v.first])
+               dist[v.first] = distFrom + v.second;
+         }
+      }
+   }
+
+   for (int i = 1; i < n; i++)
+   {
+      for (const auto& e : adjList) {
+         int distFrom = dist[e.first];
+         for (const auto& v : e.second) {
+            if (distFrom + v.second < dist[v.first])
+               dist[v.first] = INT_MIN;
+         }
+      }
+   }
 
    return dist;
 }

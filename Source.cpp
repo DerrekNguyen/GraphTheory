@@ -96,19 +96,22 @@ int bfsGrid() {
 
 int main() {
    // COPY EXAMPLE GRAPH CODE HERE
-   // current graph: example graph 2
+   // current graph: example graph 3
 
-   graph::vertice<int> a("A", 1);
-   graph::vertice<int> b("B", 2);
-   graph::vertice<int> c("C", 3);
-   graph::vertice<int> d("D", 4);
-   graph::vertice<int> e("E", 5);
-   graph::vertice<int> f("F", 6);
-   graph::vertice<int> g("G", 7);
-   graph::vertice<int> h("H", 8);
+   graph::vertice<int> a("0", 1);
+   graph::vertice<int> b("1", 2);
+   graph::vertice<int> c("2", 3);
+   graph::vertice<int> d("3", 4);
+   graph::vertice<int> e("4", 5);
+   graph::vertice<int> f("5", 6);
+   graph::vertice<int> g("6", 7);
+   graph::vertice<int> h("7", 8);
+   graph::vertice<int> i("8", 8);
+   graph::vertice<int> j("9", 8);
 
    graph::dgraph<int> t;
 
+   // optional
    t.AddVertice(a);
    t.AddVertice(b);
    t.AddVertice(c);
@@ -117,23 +120,26 @@ int main() {
    t.AddVertice(f);
    t.AddVertice(g);
    t.AddVertice(h);
+   t.AddVertice(i);
+   t.AddVertice(j);
 
-   t.AddEdge(a, b, 3);
-   t.AddEdge(a, c, 6);
-   t.AddEdge(b, c, 4);
-   t.AddEdge(b, d, 4);
-   t.AddEdge(b, e, 11);
-   t.AddEdge(c, d, 8);
-   t.AddEdge(c, g, 11);
-   t.AddEdge(d, e, -4);
-   t.AddEdge(d, f, 5);
-   t.AddEdge(d, g, 2);
-   t.AddEdge(e, h, 9);
-   t.AddEdge(f, h, 1);
-   t.AddEdge(g, h, 2);
+   t.AddEdge(a, b, 5);
+   t.AddEdge(b, c, 20);
+   t.AddEdge(c, d, 10);
+   t.AddEdge(d, c, -15);
+   t.AddEdge(c, e, 75);
+   t.AddEdge(b, f, 30);
+   t.AddEdge(b, g, 60);
+   t.AddEdge(f, g, 5);
+   t.AddEdge(g, h, -50);
+   t.AddEdge(h, i, -10);
+   t.AddEdge(f, i, 50);
+   t.AddEdge(f, e, 25);
+   t.AddEdge(e, j, 100);
 
    // END OF EXAMPLE GRAPH CODE
+
+   for (const auto& v : t.bellmanFord(0)) std::cout << v << " ";
    
-   for (auto i : t.dijkstra(0)) std::cout << i << " ";
    return 0;
 }

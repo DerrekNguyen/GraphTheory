@@ -165,6 +165,7 @@ namespace graph {
       void AddVertice(vertice<T>&);
       vertice<T>& GetVertice(int);
       int GetSize() const { return size; };
+      int GetEdgeSize() const { return edgeSize; }
       bool InGraph(const vertice<T>& v) { return adjList.find(v) != adjList.end(); }
 
       virtual void AddEdge(vertice<T>&, vertice<T>&, int) = 0;
@@ -182,11 +183,17 @@ namespace graph {
       std::vector<int> ssspOnDAG();
       std::vector<int> sslpOnDAG();
       std::vector<int> dijkstra(int);
+      std::vector<int> bellmanFord(int s);
 
    protected:
+      // Look up map for vertices. Key is the id, Data is a pointer to the vertice
       std::unordered_map<int, vertice<T>*> dataMap;
+      // Adjacent list for all vertices. Key is the from-vertice's id, Data is a vector containing edges in the form of pairs (to-vertice's id, weight)
       std::unordered_map<int, std::vector<std::pair<int, int>>> adjList;
+      // number of vertices
       int size;
+      // number of edges
+      int edgeSize;
    };
 
    template<typename T>
@@ -210,6 +217,8 @@ namespace graph {
          else {
             g::adjList[from.GetId()].push_back(p);
          }
+
+         g::edgeSize++;
       }
    };
 
@@ -224,6 +233,7 @@ namespace graph {
       void AddEdge(vertice<T>& from, vertice<T>& to, int weight) {
          dg::AddEdge(from, to, weight);
          dg::AddEdge(to, from, weight);
+         g::edgeSize--;
       }
    };
 
