@@ -318,5 +318,61 @@ std::vector<int> graph::graph<T>::bellmanFord(int s) {
 
    return dist;
 }
+ 
+/// <summary>
+/// floydWarshall class definitions.
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <returns>
+/// <para>2D distance vector formatted like an adjacency matrix</para>
+/// 2D 'next' vector to retrace shortest path from vertices a -> b
+/// </returns>
+template<typename T>
+class graph::graph<T>::floydWarshall {
+private:
+   std::vector<std::vector<int>> dp;
+   std::vector<std::vector<int>> next;
+
+public:
+
+   floydWarshall(graph<T>& g) {
+      int n = g.size;
+      dp.resize(n, std::vector<int>(n, 100000));
+      next.resize(n, std::vector<int>(n, -1));
+
+      for (int i = 0; i < n; ++i) {
+         dp[i][i] = 0;
+         if (g.adjList.find(i) == g.adjList.end()) continue;
+         for (const auto& e : g.adjList[i]) {
+            dp[i][e.first] = e.second;
+            next[i][e.first] = e.first;
+         }
+      }
+
+      for (int k = 0; k < n; ++k) {
+         for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+               if (dp[i][j] > dp[i][k] + dp[k][j] && dp[i][k] < 90000 && dp[i][j] < 90000 && dp[k][j] < 90000) {
+                  dp[i][j] = dp[i][k] + dp[k][j];
+                  next[i][j] = next[i][k];
+               }
+            }
+         }
+      }
+
+      for (int k = 0; k < n; ++k) {
+         for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+               if (dp[i][j] > dp[i][k] + dp[k][j] && dp[i][k] < 90000 && dp[i][j] < 90000 && dp[k][j] < 90000) {
+                  dp[i][j] = -10000;
+                  next[i][j] = -1;
+               }
+            }
+         }
+      }
+   }
+
+   const std::vector<std::vector<int>>& getDistance() const { return dp; };
+};
 
 #endif

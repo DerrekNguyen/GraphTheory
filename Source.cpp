@@ -1,4 +1,5 @@
 #include "graph.cpp"
+#include "examples.hpp"
 #include <fstream>
 
 ////////////////////////////////////////////
@@ -95,51 +96,20 @@ int bfsGrid() {
 }
 
 int main() {
-   // COPY EXAMPLE GRAPH CODE HERE
+   // GRAPH GENERATION HERE
    // current graph: example graph 3
 
-   graph::vertice<int> a("0", 1);
-   graph::vertice<int> b("1", 2);
-   graph::vertice<int> c("2", 3);
-   graph::vertice<int> d("3", 4);
-   graph::vertice<int> e("4", 5);
-   graph::vertice<int> f("5", 6);
-   graph::vertice<int> g("6", 7);
-   graph::vertice<int> h("7", 8);
-   graph::vertice<int> i("8", 8);
-   graph::vertice<int> j("9", 8);
-
    graph::dgraph<int> t;
+   generateGraph4(t);
 
-   // optional
-   t.AddVertice(a);
-   t.AddVertice(b);
-   t.AddVertice(c);
-   t.AddVertice(d);
-   t.AddVertice(e);
-   t.AddVertice(f);
-   t.AddVertice(g);
-   t.AddVertice(h);
-   t.AddVertice(i);
-   t.AddVertice(j);
+   // END OF GRAPH GENERATION
 
-   t.AddEdge(a, b, 5);
-   t.AddEdge(b, c, 20);
-   t.AddEdge(c, d, 10);
-   t.AddEdge(d, c, -15);
-   t.AddEdge(c, e, 75);
-   t.AddEdge(b, f, 30);
-   t.AddEdge(b, g, 60);
-   t.AddEdge(f, g, 5);
-   t.AddEdge(g, h, -50);
-   t.AddEdge(h, i, -10);
-   t.AddEdge(f, i, 50);
-   t.AddEdge(f, e, 25);
-   t.AddEdge(e, j, 100);
+   graph::dgraph<int>::floydWarshall dp(t);
 
-   // END OF EXAMPLE GRAPH CODE
-
-   for (const auto& v : t.bellmanFord(0)) std::cout << v << " ";
+   for (const auto& v : dp.getDistance()) {
+      for (const auto& i : v) std::cout << i << " ";
+      std::cout << std::endl;
+   }
    
    return 0;
 }

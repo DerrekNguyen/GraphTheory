@@ -16,7 +16,7 @@
 Indexed Priority Queue. Uses binary min heap
 */
 template<typename T>
-class MinIndexedPriorityQueue { 
+class MinIndexedPriorityQueue {
 public:
    MinIndexedPriorityQueue(int size_) {
       size = size_;
@@ -48,13 +48,13 @@ private:
    */
    int size;
 
-   /* 
+   /*
    The Position Map (pm) maps Key Indexes (ki) to where the position of that
    key is represented in the priority queue in the domain [0, size).
    */
    std::vector<int>* pm;
 
-   /* 
+   /*
    The Inverse Map (im) stores the indexes of the keys in the range
    [0, size) which make up the priority queue. It should be noted that
    "im" and "pm" are inverses of each other, so: pm[im[i]] = im[pm[i]] = i
@@ -78,7 +78,7 @@ public:
       first = first_;
       second = second_;
    }
-   distancePair(const distancePair &obj) {
+   distancePair(const distancePair& obj) {
       first = obj.first;
       second = obj.second;
    }
@@ -164,7 +164,9 @@ namespace graph {
 
       void AddVertice(vertice<T>&);
       vertice<T>& GetVertice(int);
+      // return number of vertices
       int GetSize() const { return size; };
+      // return number of edges
       int GetEdgeSize() const { return edgeSize; }
       bool InGraph(const vertice<T>& v) { return adjList.find(v) != adjList.end(); }
 
@@ -184,6 +186,8 @@ namespace graph {
       std::vector<int> sslpOnDAG();
       std::vector<int> dijkstra(int);
       std::vector<int> bellmanFord(int s);
+
+      class floydWarshall;
 
    protected:
       // Look up map for vertices. Key is the id, Data is a pointer to the vertice
@@ -208,7 +212,7 @@ namespace graph {
          if (g::dataMap.find(from.GetId()) == g::dataMap.end()) g::AddVertice(from);
          if (g::dataMap.find(to.GetId()) == g::dataMap.end()) g::AddVertice(to);
 
-         std::pair<int, int> p = { to.GetId(), weight};
+         std::pair<int, int> p = { to.GetId(), weight };
          if (g::adjList.find(from.GetId()) == g::adjList.end()) {
             std::vector<std::pair<int, int>> v;
             v.push_back(p);
